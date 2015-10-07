@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[LSRichTextView setText:]:LSRichTextView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "_textStorage.string">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[LSTextStorageTests verifyFontNotChanged]:LSTextStorageTests.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.testPreconditionFont.fontName">
+            </PersistentString>
+            <PersistentString
+               value = "font.fontName">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[LSRichTextViewTests testEmptyTextSetNilValue]:LSRichTextViewTests.m">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
