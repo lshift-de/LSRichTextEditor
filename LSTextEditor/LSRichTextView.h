@@ -11,13 +11,14 @@
 
 @interface LSRichTextView : UITextView <NSTextStorageDelegate>
 
-@property (nonatomic, strong) LSRichTextConfiguration *richTextConfiguration;
+@property (nonatomic, strong, readonly) LSRichTextConfiguration *richTextConfiguration;
 
 - (NSString *)plainText;
 - (NSString *)encodedText;
 
 - (instancetype)initWithFrame:(CGRect)frame andConfiguration:(LSRichTextConfiguration *)configuration;
-//- (void)setAttributedText:(NSAttributedString *)attributedText;
 - (void)setText:(NSString *)text;
+- (void)resetTextFormatting;
+- (void)setHighlightColor:(UIColor *)color;
 
 @end

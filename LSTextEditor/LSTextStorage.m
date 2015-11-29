@@ -8,20 +8,30 @@
 
 #import "LSTextStorage.h"
 #import "LSRichTextView.h"
+#import "LSParser.h"
+
+@interface LSTextStorage ()
+
+@property (nonatomic, strong, readonly) LSRichTextView *textView;
+@property (nonatomic, strong, readonly) NSArray *allowedTags;
+
+@end
 
 @implementation LSTextStorage {
     NSMutableAttributedString *_backingStore;
-    NSDictionary *_replacements;
 }
 
-
-- (instancetype)init
+- (instancetype)initWithTextView:(LSRichTextView *)textView
 {
     if (self = [super init]) {
         _backingStore = [NSMutableAttributedString new];
+        _textView = textView;
+        _allowedTags = @[@"b", @"i", @"u", @"s"];
     }
     return self;
 }
+
+#pragma mark - overrides of NSTextStorage
 
 - (NSString *)string
 {
@@ -36,236 +46,160 @@
 - (NSDictionary *)attributesAtIndex:(NSUInteger)location
                      effectiveRange:(NSRangePointer)range
 {
-    return [_backingStore attributesAtIndex:location
-                             effectiveRange:range];
+    return [_backingStore attributesAtIndex:location effectiveRange:range];
 }
 
 - (void)replaceCharactersInRange:(NSRange)range withString:(NSString *)str
 {
     NSLog(@"replaceCharactersInRange:%@ withString:%@", NSStringFromRange(range), str);
-    
+
     [self beginEditing];
     [_backingStore replaceCharactersInRange:range withString:str];
     [self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes
            range:range
   changeInLength:str.length - range.length];
     [self endEditing];
-    
-    [self processLinkDetectionInRange:range withString:str];
 }
 
 - (void)setAttributes:(NSDictionary *)attrs range:(NSRange)range
 {
     NSLog(@"setAttributes:%@ range:%@", attrs, NSStringFromRange(range));
     
-    [self beginEditing];
-    [_backingStore setAttributes:attrs range:range];
-    [self edited:NSTextStorageEditedAttributes range:range changeInLength:0];
-    [self endEditing];
-}
-
-- (void)deleteAttributes:(NSDictionary *)attributes range:(NSRange)range
-{
-    NSLog(@"deleteAttributes:%@ range:%@", attributes, NSStringFromRange(range));
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:attrs];
     
-    [self beginEditing];
-
-    for (NSString *attribute in attributes) {
-        [_backingStore removeAttribute:attribute range:range];
+    UIFont *font = [attrs objectForKey:NSFontAttributeName];
+    
+    if (!font) {
+        attributes = [NSMutableDictionary dictionaryWithDictionary:
+                      self.textView.richTextConfiguration.initialTextAttributes];
     }
 
+    [self beginEditing];
+    [_backingStore setAttributes:attributes range:range];
     [self edited:NSTextStorageEditedAttributes range:range changeInLength:0];
     [self endEditing];
 }
 
-- (void)processLinkDetectionInRange:(NSRange)range withString:(NSString *)str
+#pragma mark - input formatting
+
+- (void)processEditing
 {
-    LSRichTextView *textView = (LSRichTextView *)self.delegate;
-
-    // Regular expression matching all iWords -- first character i, followed by an uppercase alphabetic character, followed by at least one other character. Matches words like iPod, iPhone, etc.
-    static NSDataDetector *linkDetector;
-    linkDetector = linkDetector ?: [[NSDataDetector alloc] initWithTypes:NSTextCheckingTypeLink error:NULL];
-    
-    // Clear text color of edited range
-    NSRange paragaphRange = [self.string paragraphRangeForRange: NSMakeRange(range.location, str.length)];
-    [self removeAttribute:NSLinkAttributeName range:paragaphRange];
-    [self removeAttribute:NSBackgroundColorAttributeName range:paragaphRange];
-    [self removeAttribute:NSUnderlineStyleAttributeName range:paragaphRange];
-    
-    // Find all links in range
-    [linkDetector enumerateMatchesInString:self.string options:0 range:paragaphRange usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
-        [self addAttribute:NSLinkAttributeName value:result.URL range:result.range];
-        [self addAttribute:NSForegroundColorAttributeName value:textView.tintColor range:result.range];
-        [self addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:result.range];
-    }];
-}
-
--(void)processEditing
-{
-    LSRichTextView *textView = (LSRichTextView *)self.delegate;
-
-    if (textView.richTextConfiguration.configurationFeatures & ~LSRichTextFeaturesNone) {
+    // TODO: needs to be adapted for real time checking of tags
+    /*
+    LSRichTextFeatures features = self.textView.richTextConfiguration.configurationFeatures;
+    if (features & ~LSRichTextFeaturesNone) {
         [self performReplacementsForRange:[self editedRange]];
     }
-
+     */
     [super processEditing];
+}
+
+- (void)setAttributedText:(NSAttributedString *)attributedText
+{
+    NSRange extendedRange = [self calculateMultilineRange:NSMakeRange(0, attributedText.length) andTextString:attributedText.string];
+    LSRichTextFeatures features = self.textView.richTextConfiguration.configurationFeatures;
+
+    if (features & ~LSRichTextFeaturesNone) {
+        [self applyStylesToRange:extendedRange withAttributedText:attributedText];
+    } else {
+        [self setAttributedString:attributedText];
+    }
 }
 
 - (void)performReplacementsForRange:(NSRange)changedRange
 {
-    NSRange extendedRange = NSUnionRange(changedRange, [[_backingStore string]
-                                                        lineRangeForRange:NSMakeRange(changedRange.location, 0)]);
-    extendedRange = NSUnionRange(changedRange, [[_backingStore string]
-                                                lineRangeForRange:NSMakeRange(NSMaxRange(changedRange), 0)]);
+    // TODO: needs to be adapted for real time checking of tags
+    /*
+    NSRange extendedRange = [self calculateMultilineRange:changedRange];
     [self applyStylesToRange:extendedRange];
+     */
 }
 
-- (void)applyStylesToRange:(NSRange)searchRange
+- (void)applyStylesToRange:(NSRange)searchRange withAttributedText:(NSAttributedString *)attributedText
 {
-    [self createParserPatterns:searchRange];
+    LSParser *parser = [LSParser new];
+    LSNode *rootNode = [parser parseString:attributedText.string error:nil];
 
-    // iterate over each replacement
-    for (NSString* key in _replacements) {
-        NSRegularExpression *regex = [NSRegularExpression
-                                      regularExpressionWithPattern:key
-                                      options:0
-                                      error:nil];
-        
-        NSDictionary* attributes = _replacements[key];
-        NSMutableDictionary *tagReplacements = [[NSMutableDictionary alloc] init];
+    NSMutableAttributedString *resultString = [[NSMutableAttributedString alloc] init];
 
-        if (NSMaxRange(searchRange) > self.length) {
-            // adjusts the search range after string modification
-            searchRange = NSMakeRange(searchRange.location, self.length);
-        }
-        
-        [regex enumerateMatchesInString:[_backingStore mutableString]
-                                options:0
-                                  range:searchRange
-                             usingBlock:^(NSTextCheckingResult *match,
-                                          NSMatchingFlags flags,
-                                          BOOL *stop) {
-                                 // apply the style
-                                 NSRange matchRange = [match rangeAtIndex:0];
+    [self processParsedString:rootNode resultString:&resultString fromSourceText:attributedText];
 
-                                 if (matchRange.location != NSNotFound && NSMaxRange(matchRange) <= self.length) {
-                                     [self addAttributes:attributes range:matchRange];
-                                 }
+    [self setAttributedString:resultString];
+}
 
-                                 NSRange matchSubRange = [match rangeAtIndex:1];
-                                 if (matchSubRange.location != NSNotFound && NSMaxRange(matchSubRange) <= self.length) {
-                                     NSString *targetSubString = [[_backingStore mutableString] substringWithRange:matchSubRange];
-                                     [tagReplacements setValue:targetSubString forKey:NSStringFromRange(matchRange)];
-                                 }
-                             }];
-
-        __block NSUInteger rangeOffset = 0;
-        __block NSRange previousRange;
-
-        [tagReplacements enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            NSString *sourceString = (NSString *)key;
-            NSString *targetString = (NSString *)obj;
-            
-            NSRange range = NSRangeFromString(sourceString);
-            
-            if (previousRange.location != NSNotFound && previousRange.location < range.location) {
-                // fixes the range changes during the string modification
-                range = NSMakeRange(range.location - rangeOffset, range.length);
-            }
-
-            if (range.location != NSNotFound && NSMaxRange(range) <= self.length) {
-                [self replaceCharactersInRange:range withString:targetString];
-                rangeOffset += range.length - targetString.length;
-                previousRange = range;
-            }
+- (void)processParsedString:(LSNode *)currentNode resultString:(NSMutableAttributedString **)outString
+             fromSourceText:(NSAttributedString *)attributedText
+{
+    __block NSMutableAttributedString *resultString = [[NSMutableAttributedString alloc] init];
+    
+    if (currentNode.tagName) {
+        [currentNode.children enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [self processParsedString:(LSNode *)obj resultString:&resultString fromSourceText:attributedText];
         }];
-    }
-}
+    } else {
+        NSRange originRange = [attributedText.string rangeOfString:currentNode.content];
+        NSAttributedString *preservedAttributedString = [attributedText attributedSubstringFromRange:originRange];
+        
+        [resultString appendAttributedString:preservedAttributedString];
 
-
-- (void) createParserPatterns:(NSRange)inRange {
-    // TODO: should be moved into a formatter!
-    
-    UIFont *currentFont = [self fontAtIndex:inRange.location];
-
-    // create the attributes
-    NSDictionary* boldAttributes = [self createAttributesForFontStyle:currentFont
-                                                            withTrait:UIFontDescriptorTraitBold];
-    NSDictionary* italicAttributes = [self createAttributesForFontStyle:currentFont
-                                                              withTrait:UIFontDescriptorTraitItalic];
-    
-    NSDictionary* strikeThroughAttributes = @{ NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-    NSDictionary* underlineAttributes = [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:NSUnderlineStyleSingle] forKey:NSUnderlineStyleAttributeName];
-
-    // construct a dictionary of replacements based on regexes
-    _replacements = @{
-                      @"\\[b\\]((.|\n|\r)*)\\[/b\\]" : boldAttributes,
-                      @"\\[i\\]((.|\n|\r)*)\\[/i\\]" : italicAttributes,
-                      @"\\[u\\]((.|\n|\r)*)\\[/u\\]" : underlineAttributes,
-                      @"\\[s\\]((.|\n|\r)*)\\[/s\\]" : strikeThroughAttributes};
-}
-
-- (NSDictionary*)createAttributesForFontStyle:(UIFont*)currentFont
-                                    withTrait:(uint32_t)traitValue
-{
-    UIFontDescriptor *fontDescriptor = [currentFont fontDescriptor];
-    UIFontDescriptorSymbolicTraits existingTraitsWithNewTrait = [fontDescriptor symbolicTraits] | traitValue;
-
-    UIFontDescriptor *descriptorWithTrait = [fontDescriptor fontDescriptorWithSymbolicTraits:existingTraitsWithNewTrait];
-
-    UIFont* font =  [UIFont fontWithDescriptor:descriptorWithTrait size: 0.0];
-    return @{ NSFontAttributeName : font };
-}
-
-- (UIFont *)fontAtIndex:(NSInteger)index
-{
-    UITextView *textView = (UITextView *)self.delegate;
-
-    // If index at end of string, get attributes starting from previous character
-    if (index == _backingStore.string.length && [textView hasText]) {
-        --index;
+        if (self.textView.richTextConfiguration.configurationFeatures & ~LSRichTextFeaturesPlainText) {
+            [currentNode.tagNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([self.allowedTags containsObject:obj]) {
+                    NSRange currentRange = NSMakeRange(0, resultString.length);
+                    NSDictionary *newAttributes = [self createActualAttributeStyle:currentRange
+                                                                    forTagName:obj
+                                                                      withText:resultString];
+                    [resultString addAttributes:newAttributes range:currentRange];
+                }
+            }];
+        }
     }
     
-    // If no text exists get font from typing attributes
-    NSDictionary *dictionary = ([textView hasText])
-        ? [_backingStore attributesAtIndex:index effectiveRange:nil]
-        : textView.typingAttributes;
-    
-    return [dictionary objectForKey:NSFontAttributeName];
+    [*outString appendAttributedString:resultString];
 }
 
-- (NSDictionary *)fontAttributesAtIndex:(NSInteger)index
+#pragma mark - link detection
+
+- (void)processLinkDetection
 {
-    UITextView *textView = (UITextView *)self.delegate;
+    static NSDataDetector *linkDetector;
+    linkDetector = linkDetector ?: [[NSDataDetector alloc] initWithTypes:self.textView.richTextConfiguration.textCheckingTypes
+                                                                   error:NULL];
 
-    // If index at end of string, get attributes starting from previous character
-    if (index == _backingStore.string.length && [textView hasText])
-        --index;
+    NSRange extendedRange = [self calculateMultilineRange:NSMakeRange(0, self.length) andTextString:self.string];
+
+    // remove existing link attributes
+    [self removeAttribute:NSLinkAttributeName range:extendedRange];
+
+    __weak LSTextStorage *weakSelf = self;
     
-    // If no text exists get font from typing attributes
-    return  ([textView hasText])
-    ? [_backingStore attributesAtIndex:index effectiveRange:nil]
-    : textView.typingAttributes;
+    // Find all links in range
+    [linkDetector enumerateMatchesInString:self.string options:0 range:extendedRange usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+        if ([result resultType] == NSTextCheckingTypeLink) {
+            [self removeAttribute:NSUnderlineStyleAttributeName range:result.range];
+            [_backingStore addAttributes:@{NSLinkAttributeName : result.URL,
+                                           NSForegroundColorAttributeName : weakSelf.textView.tintColor,
+                                           NSFontAttributeName : weakSelf.textView.font}
+                                   range:result.range];
+        }
+    }];
 }
+
+#pragma mark - interactive formatters
 
 - (void)applyTraitChangeToRange:(NSRange)range andTraitValue:(uint32_t)traitValue
 {
-    UITextView *textView = (UITextView *)self.delegate;
-
     UIFont *currentFont = [self fontAtIndex:range.location];
     UIFontDescriptor *fontDescriptor = [currentFont fontDescriptor];
 
     if (!fontDescriptor) {
-        fontDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
-        NSLog(@"==============>>> preferredFontDescriptor is used!!!");
+        fontDescriptor = [self.textView.richTextConfiguration.initialTextAttributes[NSFontAttributeName] fontDescriptor];
     }
 
     UIFontDescriptorSymbolicTraits fontDescriptorSymbolicTraits = fontDescriptor.symbolicTraits;
     BOOL isEnabled = (fontDescriptorSymbolicTraits & traitValue) != 0;
 
     UIFontDescriptor *changedFontDescriptor;
-    
-    NSLog(@"==> current font: %@, ENABLED STATE: %@", fontDescriptor, ((isEnabled)?@"YES":@"NO"));
 
     if (!isEnabled) {
         UIFontDescriptorSymbolicTraits existingTraitsWithNewTrait = [fontDescriptor symbolicTraits] | traitValue;
@@ -282,18 +216,16 @@
     if (range.length > 0) {
         [self addAttributes:changedAttributes range:range];
     } else {
-        NSMutableDictionary *dictionary = [[textView typingAttributes] mutableCopy];
+        NSMutableDictionary *dictionary = [[self.textView typingAttributes] mutableCopy];
         [dictionary setObject:[changedAttributes valueForKey:NSFontAttributeName] forKey:NSFontAttributeName];
-        [textView setTypingAttributes:dictionary];
+        [self.textView setTypingAttributes:dictionary];
     }
 }
 
 - (void)applyUnderlineChangeToRange:(NSRange)range andStyleAttributeName:(NSString *)styleAttributeName
 {
-    UITextView *textView = (UITextView *)self.delegate;
-
     NSDictionary *currentAttributesDict = (range.length > 0) ? [_backingStore attributesAtIndex:range.location effectiveRange:nil]
-                                                             :  textView.typingAttributes;
+                                                             :  self.textView.typingAttributes;
 
     NSDictionary *newAttributes;
 
@@ -308,19 +240,106 @@
     if (range.length > 0) {
         [self addAttributes:newAttributes range:range];
     } else {
-        NSMutableDictionary *dictionary = [[textView typingAttributes] mutableCopy];
+        NSMutableDictionary *dictionary = [[self.textView typingAttributes] mutableCopy];
         [dictionary setObject:[newAttributes valueForKey:styleAttributeName] forKey:styleAttributeName];
-        [textView setTypingAttributes:dictionary];
+        [self.textView setTypingAttributes:dictionary];
     }
 }
 
-#pragma output formatter tasks
+#pragma mark - formatter helpers
+
+- (NSDictionary *)createActualAttributeStyle:(NSRange)inRange forTagName:(NSString *)tagName withText:(NSAttributedString *)attributedText
+{
+    UIFont *currentFont = [self fontAtIndex:inRange.location withinText:attributedText];
+    NSDictionary* currentAttributes = @{};
+
+    if ([tagName isEqualToString:@"b"]) {
+        currentAttributes = [self createAttributesForFontStyle:currentFont
+                                                     withTrait:UIFontDescriptorTraitBold];
+    } else if ([tagName isEqualToString:@"i"]) {
+        currentAttributes = [self createAttributesForFontStyle:currentFont
+                                                     withTrait:UIFontDescriptorTraitItalic];
+    } else if ([tagName isEqualToString:@"u"]) {
+        currentAttributes = [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:NSUnderlineStyleSingle]
+                                                        forKey:NSUnderlineStyleAttributeName];
+    } else if ([tagName isEqualToString:@"s"]) {
+        currentAttributes = @{ NSStrikethroughStyleAttributeName : [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+    }
+
+    return currentAttributes;
+}
+
+- (NSDictionary*)createAttributesForFontStyle:(UIFont*)currentFont
+                                    withTrait:(uint32_t)traitValue
+{
+    UIFontDescriptor *fontDescriptor = [currentFont fontDescriptor];
+
+    if (!fontDescriptor) {
+        fontDescriptor = [self.textView.richTextConfiguration.initialTextAttributes[NSFontAttributeName] fontDescriptor];
+    }
+
+    UIFontDescriptorSymbolicTraits existingTraitsWithNewTrait = [fontDescriptor symbolicTraits] | traitValue;
+
+    UIFontDescriptor *descriptorWithTrait = [fontDescriptor fontDescriptorWithSymbolicTraits:existingTraitsWithNewTrait];
+
+    UIFont* font =  [UIFont fontWithDescriptor:descriptorWithTrait size: 0.0];
+
+    if (!font) {
+        // in this case the default system font is found and can't set new
+        // descriptors, so we use the textview initial one.
+        font = self.textView.richTextConfiguration.initialTextAttributes[NSFontAttributeName];
+    }
+
+    return @{ NSFontAttributeName : font };
+}
+
+- (UIFont *)fontAtIndex:(NSInteger)index
+{
+    // If index at end of string, get attributes starting from previous character
+    if (index == _backingStore.string.length && [self.textView hasText] && _backingStore.string.length > 0) {
+        --index;
+    }
+
+    // If no text exists get font from typing attributes
+    NSDictionary *dictionary = ([self.textView hasText] && index != _backingStore.string.length - 1)
+    ? [_backingStore attributesAtIndex:index effectiveRange:nil]
+    : self.textView.typingAttributes;
+
+    return [dictionary objectForKey:NSFontAttributeName];
+}
+
+- (UIFont *)fontAtIndex:(NSInteger)index withinText:(NSAttributedString *)attributedText
+{
+    // If no text exists get font from typing attributes
+    NSDictionary *dictionary = [attributedText attributesAtIndex:index effectiveRange:nil];
+
+    return [dictionary objectForKey:NSFontAttributeName];
+}
+
+- (NSDictionary *)fontAttributesAtIndex:(NSInteger)index
+{
+    // If index at end of string, get attributes starting from previous character
+    if (index == _backingStore.string.length && [self.textView hasText])
+        --index;
+
+    // If no text exists get font from typing attributes
+    return  ([self.textView hasText])
+    ? [_backingStore attributesAtIndex:index effectiveRange:nil]
+    : self.textView.typingAttributes;
+}
+
+#pragma mark - output formatter tasks
 
 - (NSString *)createOutputString
 {
+    return [self createOutputStringFromStore:_backingStore];
+}
+
+- (NSString *)createOutputStringFromStore:(NSMutableAttributedString *)backingStore
+{
     NSMutableString *returnString = [NSMutableString string];
 
-    [_backingStore enumerateAttributesInRange:NSMakeRange(0, [_backingStore.string length])
+    [backingStore enumerateAttributesInRange:NSMakeRange(0, [backingStore.string length])
                             options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
                          usingBlock:
         ^(NSDictionary *attributes, NSRange range, BOOL *stop)
@@ -329,7 +348,7 @@
         UIFontDescriptor *fontDescriptor = [[mutableAttributes objectForKey:NSFontAttributeName] fontDescriptor];
         UIFontDescriptorSymbolicTraits fontDescriptorSymbolicTraits = fontDescriptor.symbolicTraits;
 
-        NSString *returnFontString = [_backingStore.string substringWithRange:range];
+        NSString *returnFontString = [backingStore.string substringWithRange:range];
 
         if (fontDescriptorSymbolicTraits & UIFontDescriptorTraitBold) {
             returnFontString = [NSString stringWithFormat:@"[b]%@[/b]", returnFontString];
@@ -422,6 +441,17 @@
      }];
     
     return returnString;
+}
+
+#pragma mark - common helper methods
+
+- (NSRange)calculateMultilineRange:(NSRange)fromRange andTextString:(NSString *)textString
+{
+    NSRange extendedRange = NSUnionRange(fromRange,
+                                         [textString lineRangeForRange:NSMakeRange(fromRange.location, 0)]);
+    extendedRange = NSUnionRange(fromRange,
+                                 [textString lineRangeForRange:NSMakeRange(NSMaxRange(fromRange), 0)]);
+    return extendedRange;
 }
 
 @end

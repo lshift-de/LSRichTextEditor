@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		235440021BCFA233007D6278 /* LSOutputFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 235440011BCFA233007D6278 /* LSOutputFormatterTests.m */; };
+		2354400C1BD1073A007D6278 /* LSScannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2354400B1BD1073A007D6278 /* LSScannerTests.m */; };
+		2354400F1BD4E61A007D6278 /* LSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 2354400D1BD4E61A007D6278 /* LSParser.h */; };
+		235440101BD4E61A007D6278 /* LSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2354400E1BD4E61A007D6278 /* LSParser.m */; };
+		235440141BD4EC96007D6278 /* LSToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 235440121BD4EC96007D6278 /* LSToken.h */; };
+		235440151BD4EC96007D6278 /* LSToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 235440131BD4EC96007D6278 /* LSToken.m */; };
+		235440181BD525C3007D6278 /* LSNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 235440161BD525C3007D6278 /* LSNode.h */; };
+		235440191BD525C3007D6278 /* LSNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 235440171BD525C3007D6278 /* LSNode.m */; };
 		2389B81B1BB2A51900213FAF /* LSTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2389B81A1BB2A51900213FAF /* LSTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2389B8211BB2A51900213FAF /* LSTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2389B8151BB2A51900213FAF /* LSTextEditor.framework */; };
 		2389B83B1BB2C8AF00213FAF /* LSRichTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2389B8311BB2C8AF00213FAF /* LSRichTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -35,6 +43,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		235440011BCFA233007D6278 /* LSOutputFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LSOutputFormatter\U0010Tests.m"; sourceTree = "<group>"; };
+		2354400B1BD1073A007D6278 /* LSScannerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSScannerTests.m; sourceTree = "<group>"; };
+		2354400D1BD4E61A007D6278 /* LSParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSParser.h; sourceTree = "<group>"; };
+		2354400E1BD4E61A007D6278 /* LSParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSParser.m; sourceTree = "<group>"; };
+		235440121BD4EC96007D6278 /* LSToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSToken.h; sourceTree = "<group>"; };
+		235440131BD4EC96007D6278 /* LSToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSToken.m; sourceTree = "<group>"; };
+		235440161BD525C3007D6278 /* LSNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSNode.h; sourceTree = "<group>"; };
+		235440171BD525C3007D6278 /* LSNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSNode.m; sourceTree = "<group>"; };
 		2389B8151BB2A51900213FAF /* LSTextEditor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LSTextEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2389B8191BB2A51900213FAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2389B81A1BB2A51900213FAF /* LSTextEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LSTextEditor.h; sourceTree = "<group>"; };
@@ -75,6 +91,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		235440111BD4EABF007D6278 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				2354400D1BD4E61A007D6278 /* LSParser.h */,
+				2354400E1BD4E61A007D6278 /* LSParser.m */,
+				235440121BD4EC96007D6278 /* LSToken.h */,
+				235440131BD4EC96007D6278 /* LSToken.m */,
+				235440161BD525C3007D6278 /* LSNode.h */,
+				235440171BD525C3007D6278 /* LSNode.m */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
 		2389B80B1BB2A51900213FAF = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +146,8 @@
 			children = (
 				23FC54311BBD5A0C00EAC07D /* LSTextStorageTests.m */,
 				23FC54351BBE77A600EAC07D /* LSRichTextViewTests.m */,
+				235440011BCFA233007D6278 /* LSOutputFormatterTests.m */,
+				2354400B1BD1073A007D6278 /* LSScannerTests.m */,
 				2389B8251BB2A51900213FAF /* Supporting Files */,
 			);
 			path = LSTextEditorTests;
@@ -133,6 +164,7 @@
 		2389B8451BB2CB5C00213FAF /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				235440111BD4EABF007D6278 /* Parser */,
 				2389B8311BB2C8AF00213FAF /* LSRichTextView.h */,
 				2389B8321BB2C8AF00213FAF /* LSRichTextView.m */,
 				2389B8331BB2C8AF00213FAF /* LSRichTextToolbar.h */,
@@ -154,12 +186,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				235440181BD525C3007D6278 /* LSNode.h in Headers */,
 				2389B8431BB2C8AF00213FAF /* LSRichTextConfiguration.h in Headers */,
 				2389B83D1BB2C8AF00213FAF /* LSRichTextToolbar.h in Headers */,
+				2354400F1BD4E61A007D6278 /* LSParser.h in Headers */,
 				2389B83B1BB2C8AF00213FAF /* LSRichTextView.h in Headers */,
 				2389B81B1BB2A51900213FAF /* LSTextEditor.h in Headers */,
 				2389B8411BB2C8AF00213FAF /* LSToggleButton.h in Headers */,
 				2389B83F1BB2C8AF00213FAF /* LSTextStorage.h in Headers */,
+				235440141BD4EC96007D6278 /* LSToken.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,9 +294,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				235440191BD525C3007D6278 /* LSNode.m in Sources */,
 				2389B8421BB2C8AF00213FAF /* LSToggleButton.m in Sources */,
 				2389B8441BB2C8AF00213FAF /* LSRichTextConfiguration.m in Sources */,
 				2389B83C1BB2C8AF00213FAF /* LSRichTextView.m in Sources */,
+				235440151BD4EC96007D6278 /* LSToken.m in Sources */,
+				235440101BD4E61A007D6278 /* LSParser.m in Sources */,
 				2389B83E1BB2C8AF00213FAF /* LSRichTextToolbar.m in Sources */,
 				2389B8401BB2C8AF00213FAF /* LSTextStorage.m in Sources */,
 			);
@@ -272,7 +310,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				23FC54361BBE77A600EAC07D /* LSRichTextViewTests.m in Sources */,
+				235440021BCFA233007D6278 /* LSOutputFormatterTests.m in Sources */,
 				23FC54321BBD5A0C00EAC07D /* LSTextStorageTests.m in Sources */,
+				2354400C1BD1073A007D6278 /* LSScannerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

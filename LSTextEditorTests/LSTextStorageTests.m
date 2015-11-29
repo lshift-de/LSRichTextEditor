@@ -10,11 +10,12 @@
 #import <XCTest/XCTest.h>
 #import "LSTextStorage.h"
 #import "LSRichTextView.h"
+#import <OCMock/OCMock.h>
 
 @interface LSTextStorageTests : XCTestCase
 
 @property (nonatomic) LSTextStorage *testTextStorage;
-@property (nonatomic) UITextView *testTextView;
+@property (nonatomic) LSRichTextView *testTextView;
 @property (nonatomic) UIFont *testPreconditionFont;
 
 @end
@@ -30,10 +31,10 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    
-    self.testTextStorage = [[LSTextStorage alloc] init];
+
     [self initTextView];
-    
+    self.testTextStorage = [[LSTextStorage alloc] initWithTextView:self.testTextView];
+
     self.testTextStorage.delegate = self.testTextView;
 }
 
@@ -44,16 +45,22 @@
 
 - (void)initTextView
 {
-    self.testTextView = [[UITextView alloc] init];
     self.testPreconditionFont = [UIFont fontWithName:@"Georgia" size:18];
-    self.testTextView.font = self.testPreconditionFont;
+    
+    LSRichTextConfiguration *configuration = [OCMockObject mockForClass:[LSRichTextConfiguration class]];
+    OCMStub([configuration configurationFeatures]).andReturn(LSRichTextFeaturesAll);
+
+    self.testTextView = [OCMockObject mockForClass:[LSRichTextView class]];
+    OCMStub([self.testTextView font]).andReturn(self.testPreconditionFont);
+    OCMStub([self.testTextView richTextConfiguration]).andReturn(configuration);
+    OCMStub([self.testTextView hasText]).andReturn(YES);
 }
 
 - (void)testApplyStylesToRangeNormalString
 {
     NSString *inputString = @"This [b]is our[/b] [i]input string[/i]";
     NSString *expectedString = @"This is our input string";
-    [self.testTextStorage appendAttributedString:[[NSAttributedString alloc] initWithString:inputString attributes:@{NSFontAttributeName:self.testPreconditionFont}]];
+    [self.testTextStorage setAttributedString:[[NSAttributedString alloc] initWithString:inputString attributes:@{NSFontAttributeName:self.testPreconditionFont}]];
 
     [self.testTextStorage applyStylesToRange:NSMakeRange(0, inputString.length)];
 
@@ -76,6 +83,36 @@
     XCTAssert(self.testTextStorage.string.length == (inputString.length - 28), @"TextStorage backing string tags aren't reduced correctly!");
     XCTAssertEqualObjects(self.testTextStorage.string, expectedString, @"extStorage backing string result string isn't correct!");
 
+    [self verifyFontNotChanged];
+}
+
+- (void)testApplyStylesToRangeNormalStringCascaded2
+{
+    NSString *inputString = @"[b][i][u]just another [/u]rich [/i]text [/b][s]formatted[/s]";
+    NSString *expectedString = @"just another rich text formatted";
+    [self.testTextStorage appendAttributedString:[[NSAttributedString alloc] initWithString:inputString attributes:@{NSFontAttributeName:self.testPreconditionFont}]];
+    
+    [self.testTextStorage applyStylesToRange:NSMakeRange(0, inputString.length)];
+    
+    XCTAssert(self.testTextStorage.string.length < inputString.length, @"TextStorage backing string isn't reduced in size!");
+    XCTAssert(self.testTextStorage.string.length == (inputString.length - 28), @"TextStorage backing string tags aren't reduced correctly!");
+    XCTAssertEqualObjects(self.testTextStorage.string, expectedString, @"extStorage backing string result string isn't correct!");
+    
+    [self verifyFontNotChanged];
+}
+
+- (void)testApplyStylesToRangeDuplicatedTags
+{
+    NSString *inputString = @"[u][u]just another [/u][/u]rich text [s]formatted[/s]";
+    NSString *expectedString = @"just another rich text formatted";
+    [self.testTextStorage appendAttributedString:[[NSAttributedString alloc] initWithString:inputString attributes:@{NSFontAttributeName:self.testPreconditionFont}]];
+    
+    [self.testTextStorage applyStylesToRange:NSMakeRange(0, inputString.length)];
+    
+    XCTAssert(self.testTextStorage.string.length < inputString.length, @"TextStorage backing string isn't reduced in size!");
+    XCTAssert(self.testTextStorage.string.length == (inputString.length - 28), @"TextStorage backing string tags aren't reduced correctly!");
+    XCTAssertEqualObjects(self.testTextStorage.string, expectedString, @"extStorage backing string result string isn't correct!");
+    
     [self verifyFontNotChanged];
 }
 

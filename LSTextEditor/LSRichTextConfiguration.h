@@ -10,18 +10,26 @@
 
 typedef NS_ENUM(NSUInteger, LSRichTextFeatures) {
     LSRichTextFeaturesNone          = 1 << 0,
-    LSRichTextFeaturesReadonly      = 1 << 1,
-    LSRichTextFeaturesBold          = 1 << 2,
-    LSRichTextFeaturesItalic        = 1 << 3,
-    LSRichTextFeaturesUnderlined    = 1 << 4,
-    LSRichTextFeaturesStrikeThrough = 1 << 5,
+    LSRichTextFeaturesPlainText     = 1 << 1,
+    LSRichTextFeaturesReadonly      = 1 << 2,
+    LSRichTextFeaturesBold          = 1 << 3,
+    LSRichTextFeaturesItalic        = 1 << 4,
+    LSRichTextFeaturesUnderlined    = 1 << 5,
+    LSRichTextFeaturesStrikeThrough = 1 << 6,
     LSRichTextFeaturesAll           = 1 << 20
 };
 
 @interface LSRichTextConfiguration : NSObject
 
 @property (nonatomic, assign) LSRichTextFeatures configurationFeatures;
+@property (nonatomic, assign) NSTextCheckingType textCheckingTypes;
+@property (nonatomic, strong) NSMutableDictionary *initialTextAttributes;
+@property (nonatomic, weak) UIColor *defaultTextColor;
+@property (nonatomic, weak) UIColor *highlightColor;
 
 - (instancetype)initWithConfiguration:(LSRichTextFeatures)configurationFeatures;
+- (void)setInitialAttributesFromTextView:(UITextView *)textView;
+
+- (void)setTextCheckingType:(UIDataDetectorTypes)dataDetectorTypes;
 
 @end

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class LSRichTextView;
+
 typedef NS_ENUM(NSInteger, LSFontStyleType) {
     LSFontStyleTypeBold,
     LSFontStyleTypeItalic,
@@ -17,11 +19,16 @@ typedef NS_ENUM(NSInteger, LSFontStyleType) {
 
 @interface LSTextStorage : NSTextStorage
 
+- (instancetype)initWithTextView:(LSRichTextView *)textView;
+
 // returns the plain text without markup
 - (NSString *)string;
 - (NSString *)createOutputString;
 - (NSString *)createOutputString2;
 - (void)applyTraitChangeToRange:(NSRange)range andTraitValue:(uint32_t)traitValue;
 - (void)applyUnderlineChangeToRange:(NSRange)range andStyleAttributeName:(NSString *)styleAttributeName;
+
+- (void)processLinkDetection;
+- (void)setAttributedText:(NSAttributedString *)attributedText;
 
 @end
