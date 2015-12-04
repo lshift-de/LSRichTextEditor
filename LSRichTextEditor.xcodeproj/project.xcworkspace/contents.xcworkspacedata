@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:LSTextEditor.xcodeproj">
+      location = "self:/Users/plieder/Projects/lshift/LSTextEditor/LSRichTextEditor.xcodeproj">
    </FileRef>
 </Workspace>

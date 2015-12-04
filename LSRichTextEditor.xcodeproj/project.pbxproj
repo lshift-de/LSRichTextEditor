@@ -16,7 +16,7 @@
 		235440181BD525C3007D6278 /* LSNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 235440161BD525C3007D6278 /* LSNode.h */; };
 		235440191BD525C3007D6278 /* LSNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 235440171BD525C3007D6278 /* LSNode.m */; };
 		2389B81B1BB2A51900213FAF /* LSTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2389B81A1BB2A51900213FAF /* LSTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2389B8211BB2A51900213FAF /* LSTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2389B8151BB2A51900213FAF /* LSTextEditor.framework */; };
+		2389B8211BB2A51900213FAF /* LSRichTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2389B8151BB2A51900213FAF /* LSRichTextEditor.framework */; };
 		2389B83B1BB2C8AF00213FAF /* LSRichTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2389B8311BB2C8AF00213FAF /* LSRichTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2389B83C1BB2C8AF00213FAF /* LSRichTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2389B8321BB2C8AF00213FAF /* LSRichTextView.m */; };
 		2389B83D1BB2C8AF00213FAF /* LSRichTextToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2389B8331BB2C8AF00213FAF /* LSRichTextToolbar.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -51,10 +51,10 @@
 		235440131BD4EC96007D6278 /* LSToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSToken.m; sourceTree = "<group>"; };
 		235440161BD525C3007D6278 /* LSNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSNode.h; sourceTree = "<group>"; };
 		235440171BD525C3007D6278 /* LSNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSNode.m; sourceTree = "<group>"; };
-		2389B8151BB2A51900213FAF /* LSTextEditor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LSTextEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2389B8151BB2A51900213FAF /* LSRichTextEditor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LSRichTextEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2389B8191BB2A51900213FAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2389B81A1BB2A51900213FAF /* LSTextEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LSTextEditor.h; sourceTree = "<group>"; };
-		2389B8201BB2A51900213FAF /* LSTextEditorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LSTextEditorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2389B8201BB2A51900213FAF /* LSRichTextEditor.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LSRichTextEditor.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2389B8261BB2A51900213FAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2389B8311BB2C8AF00213FAF /* LSRichTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LSRichTextView.h; path = ../LSRichTextView.h; sourceTree = "<group>"; };
 		2389B8321BB2C8AF00213FAF /* LSRichTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LSRichTextView.m; path = ../LSRichTextView.m; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23FC54341BBE6FF200EAC07D /* libOCMock.a in Frameworks */,
-				2389B8211BB2A51900213FAF /* LSTextEditor.framework in Frameworks */,
+				2389B8211BB2A51900213FAF /* LSRichTextEditor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,8 +108,8 @@
 			isa = PBXGroup;
 			children = (
 				23FC54331BBE6FF200EAC07D /* libOCMock.a */,
-				2389B8171BB2A51900213FAF /* LSTextEditor */,
-				2389B8241BB2A51900213FAF /* LSTextEditorTests */,
+				2389B8171BB2A51900213FAF /* LSRichTextEditor */,
+				2389B8241BB2A51900213FAF /* LSRichTextEditorTests */,
 				2389B8161BB2A51900213FAF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,20 +117,20 @@
 		2389B8161BB2A51900213FAF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2389B8151BB2A51900213FAF /* LSTextEditor.framework */,
-				2389B8201BB2A51900213FAF /* LSTextEditorTests.xctest */,
+				2389B8151BB2A51900213FAF /* LSRichTextEditor.framework */,
+				2389B8201BB2A51900213FAF /* LSRichTextEditor.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2389B8171BB2A51900213FAF /* LSTextEditor */ = {
+		2389B8171BB2A51900213FAF /* LSRichTextEditor */ = {
 			isa = PBXGroup;
 			children = (
 				2389B8451BB2CB5C00213FAF /* Source */,
 				2389B81A1BB2A51900213FAF /* LSTextEditor.h */,
 				2389B8181BB2A51900213FAF /* Supporting Files */,
 			);
-			path = LSTextEditor;
+			path = LSRichTextEditor;
 			sourceTree = "<group>";
 		};
 		2389B8181BB2A51900213FAF /* Supporting Files */ = {
@@ -141,7 +141,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		2389B8241BB2A51900213FAF /* LSTextEditorTests */ = {
+		2389B8241BB2A51900213FAF /* LSRichTextEditorTests */ = {
 			isa = PBXGroup;
 			children = (
 				23FC54311BBD5A0C00EAC07D /* LSTextStorageTests.m */,
@@ -150,7 +150,7 @@
 				2354400B1BD1073A007D6278 /* LSScannerTests.m */,
 				2389B8251BB2A51900213FAF /* Supporting Files */,
 			);
-			path = LSTextEditorTests;
+			path = LSRichTextEditorTests;
 			sourceTree = "<group>";
 		};
 		2389B8251BB2A51900213FAF /* Supporting Files */ = {
@@ -201,9 +201,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		2389B8141BB2A51900213FAF /* LSTextEditor */ = {
+		2389B8141BB2A51900213FAF /* LSRichTextEditor */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2389B82B1BB2A51900213FAF /* Build configuration list for PBXNativeTarget "LSTextEditor" */;
+			buildConfigurationList = 2389B82B1BB2A51900213FAF /* Build configuration list for PBXNativeTarget "LSRichTextEditor" */;
 			buildPhases = (
 				2389B8101BB2A51900213FAF /* Sources */,
 				2389B8111BB2A51900213FAF /* Frameworks */,
@@ -214,14 +214,14 @@
 			);
 			dependencies = (
 			);
-			name = LSTextEditor;
+			name = LSRichTextEditor;
 			productName = LSTextEditor;
-			productReference = 2389B8151BB2A51900213FAF /* LSTextEditor.framework */;
+			productReference = 2389B8151BB2A51900213FAF /* LSRichTextEditor.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		2389B81F1BB2A51900213FAF /* LSTextEditorTests */ = {
+		2389B81F1BB2A51900213FAF /* LSRichTextEditorTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2389B82E1BB2A51900213FAF /* Build configuration list for PBXNativeTarget "LSTextEditorTests" */;
+			buildConfigurationList = 2389B82E1BB2A51900213FAF /* Build configuration list for PBXNativeTarget "LSRichTextEditorTests" */;
 			buildPhases = (
 				2389B81C1BB2A51900213FAF /* Sources */,
 				2389B81D1BB2A51900213FAF /* Frameworks */,
@@ -232,9 +232,9 @@
 			dependencies = (
 				2389B8231BB2A51900213FAF /* PBXTargetDependency */,
 			);
-			name = LSTextEditorTests;
+			name = LSRichTextEditorTests;
 			productName = LSTextEditorTests;
-			productReference = 2389B8201BB2A51900213FAF /* LSTextEditorTests.xctest */;
+			productReference = 2389B8201BB2A51900213FAF /* LSRichTextEditor.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -254,7 +254,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2389B80F1BB2A51900213FAF /* Build configuration list for PBXProject "LSTextEditor" */;
+			buildConfigurationList = 2389B80F1BB2A51900213FAF /* Build configuration list for PBXProject "LSRichTextEditor" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -266,8 +266,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2389B8141BB2A51900213FAF /* LSTextEditor */,
-				2389B81F1BB2A51900213FAF /* LSTextEditorTests */,
+				2389B8141BB2A51900213FAF /* LSRichTextEditor */,
+				2389B81F1BB2A51900213FAF /* LSRichTextEditorTests */,
 			);
 		};
 /* End PBXProject section */
@@ -321,7 +321,7 @@
 /* Begin PBXTargetDependency section */
 		2389B8231BB2A51900213FAF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2389B8141BB2A51900213FAF /* LSTextEditor */;
+			target = 2389B8141BB2A51900213FAF /* LSRichTextEditor */;
 			targetProxy = 2389B8221BB2A51900213FAF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -364,7 +364,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -405,7 +405,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -426,13 +426,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = LSTextEditor/Info.plist;
+				INFOPLIST_FILE = LSRichTextEditor/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = LSRichTextEditor;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s x86_64 i386";
 			};
@@ -449,12 +449,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = LSTextEditor/Info.plist;
+				INFOPLIST_FILE = LSRichTextEditor/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = LSRichTextEditor;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
@@ -476,7 +476,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(PROJECT_DIR)/usr/include",
 				);
-				INFOPLIST_FILE = LSTextEditorTests/Info.plist;
+				INFOPLIST_FILE = LSRichTextEditorTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -488,7 +488,7 @@
 					XCTest,
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = LSRichTextEditor;
 			};
 			name = Debug;
 		};
@@ -504,7 +504,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(PROJECT_DIR)/usr/include",
 				);
-				INFOPLIST_FILE = LSTextEditorTests/Info.plist;
+				INFOPLIST_FILE = LSRichTextEditorTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -516,14 +516,14 @@
 					XCTest,
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = LSRichTextEditor;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2389B80F1BB2A51900213FAF /* Build configuration list for PBXProject "LSTextEditor" */ = {
+		2389B80F1BB2A51900213FAF /* Build configuration list for PBXProject "LSRichTextEditor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2389B8291BB2A51900213FAF /* Debug */,
@@ -532,7 +532,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2389B82B1BB2A51900213FAF /* Build configuration list for PBXNativeTarget "LSTextEditor" */ = {
+		2389B82B1BB2A51900213FAF /* Build configuration list for PBXNativeTarget "LSRichTextEditor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2389B82C1BB2A51900213FAF /* Debug */,
@@ -541,7 +541,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2389B82E1BB2A51900213FAF /* Build configuration list for PBXNativeTarget "LSTextEditorTests" */ = {
+		2389B82E1BB2A51900213FAF /* Build configuration list for PBXNativeTarget "LSRichTextEditorTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2389B82F1BB2A51900213FAF /* Debug */,
