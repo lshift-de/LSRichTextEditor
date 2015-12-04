@@ -1,0 +1,13 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+link_with 'LSRichTextEditor_Example', 'LSRichTextEditor_Tests'
+
+target 'LSRichTextEditor_Example', :exclusive => true do
+  pod "LSRichTextEditor", :path => "../"
+end
+
+target 'LSRichTextEditor_Tests', :exclusive => true do
+  pod "LSRichTextEditor", :path => "../"
+  pod "OCMock"
+end

@@ -1,0 +1,17 @@
+PODS:
+  - LSRichTextEditor (0.0.1)
+  - OCMock (3.2)
+
+DEPENDENCIES:
+  - LSRichTextEditor (from `../`)
+  - OCMock
+
+EXTERNAL SOURCES:
+  LSRichTextEditor:
+    :path: ../
+
+SPEC CHECKSUMS:
+  LSRichTextEditor: 9c369a507527d4668c4fafbf4764ca22e360b4a0
+  OCMock: 28def049ef47f996b515a8eeea958be7ccab2dbb
+
+COCOAPODS: 0.39.0

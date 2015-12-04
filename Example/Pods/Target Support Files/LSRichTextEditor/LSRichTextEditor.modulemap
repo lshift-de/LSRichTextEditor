@@ -1,0 +1,6 @@
+framework module LSRichTextEditor {
+  umbrella header "LSRichTextEditor-umbrella.h"
+
+  export *
+  module * { export * }
+}
