@@ -36,6 +36,7 @@
 @implementation LSRichTextView
 {
     LSTextStorage *_textStorage;
+    BOOL _scrollEnabledSave;
 }
 
 #pragma mark - view lifecycle
@@ -77,6 +78,9 @@
 
 - (void)commonSetup:(NSTextContainer *)textContainer
 {
+    _scrollEnabledSave = self.scrollEnabled;
+    self.scrollEnabled = NO;
+
     NSString *existingText = [self.text copy];
     textContainer.layoutManager.delegate = self;
 
@@ -91,7 +95,7 @@
     [_textStorage removeLayoutManager:_textStorage.layoutManagers.firstObject];
     [_textStorage addLayoutManager:textContainer.layoutManager];
 
-    textContainer.widthTracksTextView = YES;
+    textContainer.widthTracksTextView = NO;
     [self.richTextConfiguration setTextCheckingType:self.dataDetectorTypes];
     self.dataDetectorTypes = UIDataDetectorTypeNone;
 
@@ -104,7 +108,7 @@
     self.delaysContentTouches = NO;
 
     [self setNeedsDisplay];
-
+    self.scrollEnabled = _scrollEnabledSave;
     self.text = existingText;
 }
 

@@ -24,16 +24,23 @@
                                 <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="Ytp-YO-7Cc"/>
+                                    <constraint firstAttribute="width" constant="280" id="oD4-9l-GCp"/>
                                 </constraints>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="oD4-9l-GCp"/>
+                                    </mask>
+                                </variation>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Mvr-aV-6Um" firstAttribute="top" secondItem="AWZ-zQ-p9F" secondAttribute="bottom" id="5MV-6K-3yd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="AWZ-zQ-p9F" secondAttribute="trailing" constant="4" id="Db8-ZW-9KW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="AWZ-zQ-p9F" secondAttribute="trailing" constant="4" id="GxP-wC-wKD"/>
                             <constraint firstItem="AWZ-zQ-p9F" firstAttribute="top" secondItem="uEw-UM-LJ8" secondAttribute="bottom" constant="8" symbolic="YES" id="NOO-Dc-ZEj"/>
                             <constraint firstItem="AWZ-zQ-p9F" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="4" id="PWp-SD-ThQ"/>
@@ -41,6 +48,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="GxP-wC-wKD"/>
                                 <exclude reference="5MV-6K-3yd"/>
                             </mask>
                         </variation>
