@@ -1,13 +1,13 @@
 # LSRichTextEditor
 
-[![CI Status](http://img.shields.io/travis/Peter Lieder/LSTextEditor.svg?style=flat)](https://travis-ci.org/Peter Lieder/LSTextEditor)
-[![Version](https://img.shields.io/cocoapods/v/LSTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSTextEditor)
-[![License](https://img.shields.io/cocoapods/l/LSTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSTextEditor)
-[![Platform](https://img.shields.io/cocoapods/p/LSTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSTextEditor)
+[![CI Status](https://travis-ci.org/lshift-de/LSRichTextEditor.svg?branch=master)](https://travis-ci.org/lshift-de/LSRichTextEditor)
+[![Version](https://img.shields.io/cocoapods/v/LSRichTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSRichTextEditor)
+[![License](https://img.shields.io/cocoapods/l/LSRichTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSRichTextEditor)
+[![Platform](https://img.shields.io/cocoapods/p/LSRichTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSRichTextEditor)
 
 A rich text editing feature for text input fields get more and more important in mobile applications nowadays. But why just another rich text editor? LSRichTextEditor combines the idea of getting an easy to implement component with a set of various text editing features that are flexible to set up. The rich text component extends the UITextView by adding formatting attributes to selected ranges or typed letters. A toolbar is providing buttons for the according formatting features. The additional parser implementation provides transformation feature for markup languages, currently is only BBCode supported. Additionally, a markup encoded string can be exported from the formatted text.
 
-![](LSRichTextEditor.png?raw=true "LSRichTextEditor screenshot")
+![](https://raw.githubusercontent.com/lshift-de/LSRichTextEditor/master/LSRichTextEditor.png "LSRichTextEditor screenshot")
 
 ## Requirements
 
