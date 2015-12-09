@@ -7,7 +7,7 @@
 
 A rich text editing feature for text input fields get more and more important in mobile applications nowadays. But why just another rich text editor? LSRichTextEditor combines the idea of getting an easy to implement component with a set of various text editing features that are flexible to set up. The rich text component extends the UITextView by adding formatting attributes to selected ranges or typed letters. A toolbar is providing buttons for the according formatting features. The additional parser implementation provides transformation feature for markup languages, currently is only BBCode supported. Additionally, a markup encoded string can be exported from the formatted text.
 
-![](LSRichTextEditor.gif?raw=true "LSRichTextEditor screenshot")
+![](LSRichTextEditor.png?raw=true "LSRichTextEditor screenshot")
 
 ## Requirements
 
