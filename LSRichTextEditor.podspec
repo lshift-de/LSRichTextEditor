@@ -21,7 +21,7 @@ The rich text component extends the UITextView by adding formatting attributes t
                        DESC
 
   s.homepage         = "https://www.lshift.de"
-  s.screenshots     = "https://github.com/lshift-de/LSRichTextEditor/blob/master/LSRichTextEditor.png"
+  s.screenshots     = "https://raw.githubusercontent.com/lshift-de/LSRichTextEditor/master/LSRichTextEditor.png"
   s.license          = 'Apache2'
   s.author           = { "Peter Lieder" => "peter@lshift.de" }
   s.source           = { :git => "https://github.com/lshift-de/LSRichTextEditor.git", :tag => s.version.to_s }
