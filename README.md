@@ -1,6 +1,7 @@
 # LSRichTextEditor
 
 [![CI Status](https://travis-ci.org/lshift-de/LSRichTextEditor.svg?branch=master)](https://travis-ci.org/lshift-de/LSRichTextEditor)
+[![codecov.io](https://codecov.io/github/lshift-de/LSRichTextEditor/coverage.svg?branch=master)](https://codecov.io/github/lshift-de/LSRichTextEditor)
 [![Version](https://img.shields.io/cocoapods/v/LSRichTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSRichTextEditor)
 [![License](https://img.shields.io/cocoapods/l/LSRichTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSRichTextEditor)
 [![Platform](https://img.shields.io/cocoapods/p/LSRichTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSRichTextEditor)
