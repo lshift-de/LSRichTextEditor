@@ -25,7 +25,7 @@
     [self adjustTextFieldStyle:self.richTextView];
 
     // adding the second rich text view programmatically
-    LSRichTextConfiguration *configuration = [[LSRichTextConfiguration alloc] initWithConfiguration:LSRichTextFeaturesAll];
+    LSRichTextConfiguration *configuration = [[LSRichTextConfiguration alloc] initWithTextFeatures:LSRichTextFeaturesAll];
     CGRect frame = CGRectMake(self.richTextView.frame.origin.x, self.richTextView.frame.origin.y + self.richTextView.frame.size.height + 20, self.richTextView.frame.size.width, self.richTextView.frame.size.height);
 
     LSRichTextView *textView = [[LSRichTextView alloc] initWithFrame:frame andConfiguration:configuration];

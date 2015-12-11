@@ -22,6 +22,25 @@
 
 #import <UIKit/UIKit.h>
 
+/*!
+ * @typedef LSRichTextFeatures
+ *
+ * @brief The rich text features type.
+ *
+ * @discussion The value of this type represent the features of the rich text view
+ *             field and the the rich text toolbar. It also defines which formatting
+ *             features are used.
+ *
+ * @field LSRichTextFeaturesNone No feature selected, component acts like a UITextView only
+ * @field LSRichTextFeaturesPlainText Just plain text is shown, no markup is converted
+ * @field LSRichTextFeaturesReadonly Markup conversion is enabled, interactive formatting is 
+ *                                   disabled
+ * @field LSRichTextFeaturesBold Enables bold formatting from markup and by toolbar
+ * @field LSRichTextFeaturesItalic Enables italic formatting from markup and by toolbar
+ * @field LSRichTextFeaturesUnderlined Enables underlined formatting from markup and by toolbar
+ * @field LSRichTextFeaturesStrikeThrough Enables strike through formatting from markup and by toolbar
+ * @field LSRichTextFeaturesAll Enables all formatting and parsing features
+ */
 typedef NS_ENUM(NSUInteger, LSRichTextFeatures) {
     LSRichTextFeaturesNone          = 1 << 0,
     LSRichTextFeaturesPlainText     = 1 << 1,
@@ -33,17 +52,72 @@ typedef NS_ENUM(NSUInteger, LSRichTextFeatures) {
     LSRichTextFeaturesAll           = 1 << 20
 };
 
+/*!
+ *  @interface LSRichTextConfiguration
+ *  
+ *  @brief The global configuration object for rich text component.
+ *
+ *  @discussion The configuration object is created during initialization phase of
+ *              LSRichTextView and is used for global setup. Several editor components
+ *              using it for conditional execution.
+ *
+ *  @superclass NSObject
+ */
 @interface LSRichTextConfiguration : NSObject
 
+/*!
+ * Keeps the enum type for configuration features.
+ */
 @property (nonatomic, assign) LSRichTextFeatures configurationFeatures;
+
+/*!
+ * Keeps the value of activated text checking types - NSTextCheckingType
+ */
 @property (nonatomic, assign) NSTextCheckingType textCheckingTypes;
+
+/*!
+ * A backing field for initially set text formatting attributes to save the
+ * values set by interface builder.
+ */
 @property (nonatomic, strong) NSMutableDictionary *initialTextAttributes;
+
+/*!
+ * Sets the default text color.
+ */
 @property (nonatomic, weak) UIColor *defaultTextColor;
+
+/*!
+ * Sets the highlighted text color used by e.g. link detection.
+ */
 @property (nonatomic, weak) UIColor *highlightColor;
 
-- (instancetype)initWithConfiguration:(LSRichTextFeatures)configurationFeatures;
+/*!
+ * @brief Initializer for configuration object.
+ * 
+ * Initializes a configuration object with a given feature set.
+ *
+ * @param LSRichTextFeatures The given feature type.
+ */
+- (instancetype)initWithTextFeatures:(LSRichTextFeatures)configurationFeatures;
+
+/*!
+ * @brief Sets the initial text attributes.
+ *
+ * A setter for backing up the text formatting attributes set initially set by the 
+ * interface builder or programmatically. This method fetches actively the parameters 
+ * from the initialized text view component.
+ *
+ * @param UITextView The text view component containing the parameters.
+ */
 - (void)setInitialAttributesFromTextView:(UITextView *)textView;
 
+/*!
+ * @brief Sets the text checking type.
+ *
+ * A setter for backing up the initially set data detector types.
+ *
+ * @param UIDataDetectorTypes The data detector types as they are used by IB.
+ */
 - (void)setTextCheckingType:(UIDataDetectorTypes)dataDetectorTypes;
 
 @end

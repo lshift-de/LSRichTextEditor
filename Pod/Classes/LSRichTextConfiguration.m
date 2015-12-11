@@ -11,7 +11,7 @@
 
 @implementation LSRichTextConfiguration
 
-- (instancetype)initWithConfiguration:(LSRichTextFeatures)configurationFeatures
+- (instancetype)initWithTextFeatures:(LSRichTextFeatures)configurationFeatures
 {
     if (self = [super init])
     {
@@ -23,7 +23,7 @@
 
 - (instancetype)init
 {
-    return [self initWithConfiguration:LSRichTextFeaturesNone];
+    return [self initWithTextFeatures:LSRichTextFeaturesNone];
 }
 
 

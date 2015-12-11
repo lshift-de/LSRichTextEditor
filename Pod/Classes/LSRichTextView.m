@@ -52,7 +52,7 @@
     self = [super initWithCoder:aDecoder];
 
     if (self) {
-        _richTextConfiguration = [[LSRichTextConfiguration alloc] initWithConfiguration:LSRichTextFeaturesAll];
+        _richTextConfiguration = [[LSRichTextConfiguration alloc] initWithTextFeatures:LSRichTextFeaturesAll];
         [self commonSetup:self.textContainer];
     }
 
@@ -73,7 +73,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    return [self initWithFrame:frame andConfiguration:[[LSRichTextConfiguration alloc] initWithConfiguration:LSRichTextFeaturesAll]];
+    return [self initWithFrame:frame andConfiguration:[[LSRichTextConfiguration alloc] initWithTextFeatures:LSRichTextFeaturesAll]];
 }
 
 - (void)commonSetup:(NSTextContainer *)textContainer

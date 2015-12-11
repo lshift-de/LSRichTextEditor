@@ -51,11 +51,11 @@ The LSRichTextConfiguration objects provides a global setup instance used all ov
 ```objective-c
 [[LSRichTextConfiguration alloc] initWithConfiguration:LSRichTextFeaturesAll]]
 ```
-The features of ```objective-c LSRichTextFeatures``` with bit operators.
+The features of ```LSRichTextFeatures``` with bit operators.
 
 ### Enable Data Detection
 
-If the rich text view component is initialized programmatically the data detection feature needs to be enabled by code as well. This can be archived by setting the according ```objective-c UIDataDetectorTypes``` type.
+If the rich text view component is initialized programmatically the data detection feature needs to be enabled by code as well. This can be archived by setting the according ```UIDataDetectorTypes``` type.
 
 ```objective-c
 [self.richTextView.richTextConfiguration setTextCheckingType:UIDataDetectorTypeLink];
@@ -80,4 +80,4 @@ Peter Lieder, <peter@lshift.de>
 
 ## License
 
-LSTextEditor is available under the Apache License Version 2.0. See the LICENSE file for more information.
+LSTextEditor is available under the Apache License Version 2.0. See the [LICENSE](LICENSE) file for more information.
