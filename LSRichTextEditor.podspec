@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "LSRichTextEditor"
-  s.version          = "0.1.2"
+  s.version          = "0.1.3"
   s.summary          = "An iOS rich text editor with markup code parsing component."
 
 # This description is used to generate tags and improve search results.
@@ -25,17 +25,16 @@ The rich text component extends the UITextView by adding formatting attributes t
   s.license          = 'Apache2'
   s.author           = { "Peter Lieder" => "peter@lshift.de" }
   s.source           = { :git => "https://github.com/lshift-de/LSRichTextEditor.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform     = :ios, '8.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'LSRichTextEditor' => ['Pod/Assets/*.png']
-  }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+#  s.resource_bundles = {
+#    'LSRichTextEditor' => ['Pod/Assets/*.png']
+#  }
+
   s.frameworks = 'Foundation', 'UIKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+
 end

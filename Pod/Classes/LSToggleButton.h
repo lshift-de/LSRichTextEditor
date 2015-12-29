@@ -22,10 +22,24 @@
 
 #import <UIKit/UIKit.h>
 
+/*!
+ *  A toggle button implementation that is keeping the actual pressed status.
+ */
 @interface LSToggleButton : UIButton
 
+/*!
+ *  The backing field for activity status of the button
+ */
 @property (nonatomic, assign) BOOL isActive;
 
+/*!
+ *  Initializer for the button defining frame and button title.
+ *
+ *  @param frame CGRect the frame for drawing the button.
+ *  @param title the button title.
+ *
+ *  @return <#return value description#>
+ */
 - (id)initWithFrame:(CGRect)frame andTitle:(NSString *)title;
 
 @end

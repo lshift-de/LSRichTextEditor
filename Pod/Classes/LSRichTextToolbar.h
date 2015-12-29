@@ -24,9 +24,7 @@
 #import "LSRichTextConfiguration.h"
 
 /*!
- *  @protocol LSRichTextToolbarDelegate
- *
- *  @brief The LSRichTextToolbarDelegate protocol
+ *  The LSRichTextToolbarDelegate protocol
  *
  *  It's a delegate definition for toolbar button handlers notifying
  *  for each feature the activity status.
@@ -41,16 +39,10 @@
 @end
 
 /*!
- *  @interface LSRichTextToolbar
- *
- *  @brief The rich text toolbar component of LSTextEditor
- *
  *  @discussion LSRichTextToolbar provides the formatting buttons
  *              for controlling changes on text selections and actual typing
  *              attributes. It's set is controlled by the global 
  *              LSRichTextConfiguration object.
- *
- *  @superclass Superclass: UIView\n
  */
 @interface LSRichTextToolbar : UIView
 
@@ -65,8 +57,6 @@
 @property (nonatomic, weak) LSRichTextConfiguration *richTextConfiguration;
 
 /*!
- *  @brief The extended intitializer.
- *
  *  An extended intitializer to pass in a LSRichTextToolbarDelegate and
  *  LSRichTextConfiguration object.
  *
@@ -79,7 +69,7 @@
 - (instancetype)initWithFrame:(CGRect)frame withDelegate:(id <LSRichTextToolbarDelegate>)delegate andConfiguration:(LSRichTextConfiguration *)configuration;
 
 /*!
- *  @brief Updates the toolbar state
+ *  Updates the toolbar state
  *
  *  Updates the current toolbar state of buttons etc. based on the attributes
  +  that are passed in.

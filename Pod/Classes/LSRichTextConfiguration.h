@@ -53,15 +53,11 @@ typedef NS_ENUM(NSUInteger, LSRichTextFeatures) {
 };
 
 /*!
- *  @interface LSRichTextConfiguration
- *  
  *  @brief The global configuration object for rich text component.
  *
  *  @discussion The configuration object is created during initialization phase of
  *              LSRichTextView and is used for global setup. Several editor components
  *              using it for conditional execution.
- *
- *  @superclass NSObject
  */
 @interface LSRichTextConfiguration : NSObject
 
@@ -94,7 +90,8 @@ typedef NS_ENUM(NSUInteger, LSRichTextFeatures) {
 /*!
  * @brief Initializer for configuration object.
  * 
- * Initializes a configuration object with a given feature set.
+ * Initializes a configuration object with an initial feature set. Feature names are
+ * defined in LSRichTextFeatures type and can be aggregated bitwise.
  *
  * @param LSRichTextFeatures The given feature type.
  */

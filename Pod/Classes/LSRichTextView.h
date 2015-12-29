@@ -24,38 +24,35 @@
 #import "LSRichTextConfiguration.h"
 
 /*!
- *  @class LSRichTextView
- *
- *  @brief The rich text view component of LSTextEditor
+ *  The rich text view component of LSTextEditor
  *
  *  @discussion LSRichTextView is the main class of LSTextEditor and is acting as a
  *              single UI component managing the editor functionalities.
  *
- *  @superclass Superclass: UITextView\n
  */
 @interface LSRichTextView : UITextView <NSTextStorageDelegate>
 
 /*!
- *  Keeps an LSRichTextConfiguration object containing all component settings.
+ *  Keeps an instance of LSRichTextConfiguration containing all component settings.
  */
 @property (nonatomic, strong, readonly) LSRichTextConfiguration *richTextConfiguration;
 
 /*!
- *  @brief It returns the current text view content as raw text without any encoding.
+ *  It returns the current text view content as raw text without any encoding.
  *
  *  @return NSString The content as raw text string.
  */
 - (NSString *)plainText;
 
 /*!
- *  @brief It returns the current text view content as encoded text.
+ *  It returns the current text view content as encoded text.
  *
  *  @return NSString The content as encoded text string.
  */
 - (NSString *)encodedText;
 
 /*!
- *  @brief An additional initializer to inject frame and configuration.
+ *  An additional initializer to inject frame and configuration.
  *
  *  @param frame         CGRect the frame to draw the text view in.
  *  @param configuration LSRichTextConfiguration the configuration object for setting up.
@@ -65,17 +62,17 @@
 - (instancetype)initWithFrame:(CGRect)frame andConfiguration:(LSRichTextConfiguration *)configuration;
 
 /*!
- *  @brief The overridden setter of UITextView component.
+ *  The overridden setter of UITextView component.
  *
  *  @param text NSString the new text to be set in the editor. It can be raw text as well as
  *              encoded text of the corresponding encoding type
  *
- *  @remark Currently only BB code is supported as encoding type.
+ *  Note: Currently only BB code is supported as encoding type.
  */
 - (void)setText:(NSString *)text;
 
 /*!
- *  @brief      Resetsall text attributes.
+ *  Resetsall text attributes.
  *
  *  @discussion Resets all text attributes of the currently set text in the view component to
  *              the initial text attributes.
@@ -83,7 +80,7 @@
 - (void)resetTextFormatting;
 
 /*!
- *  @brief Sets the highlighting color.
+ *  Sets the highlighting color.
  *
  *  @discussion Sets the so called tint color in all text view functionalities.
  *

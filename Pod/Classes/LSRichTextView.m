@@ -262,8 +262,8 @@
 
     [super setText:text];
 
-    if (self.richTextConfiguration.textCheckingTypes & NSTextCheckingTypeLink) {
-        [self.customTextStorage processLinkDetection];
+    if (self.richTextConfiguration.textCheckingTypes != 0) {
+        [self.customTextStorage processDataDetection];
     }
 }
 

@@ -1,10 +1,24 @@
-//
-//  LSTextStorage.m
-//  LSTextEditor
-//
-//  Created by Peter Lieder on 14/09/15.
-//  Copyright (c) 2015 Peter Lieder. All rights reserved.
-//
+/*!
+ * This file is part of LSTextEditor.
+ *
+ * Copyright © 2015 LShift Services GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Authors:
+ * - Peter Lieder <peter@lshift.de>
+ *
+ */
 
 #import "LSTextStorage.h"
 #import "LSRichTextView.h"
@@ -158,9 +172,9 @@
     [*outString appendAttributedString:resultString];
 }
 
-#pragma mark - link detection
+#pragma mark - data detection
 
-- (void)processLinkDetection
+- (void)processDataDetection
 {
     static NSDataDetector *linkDetector;
     linkDetector = linkDetector ?: [[NSDataDetector alloc] initWithTypes:self.textView.richTextConfiguration.textCheckingTypes
@@ -168,12 +182,12 @@
 
     NSRange extendedRange = [self calculateMultilineRange:NSMakeRange(0, self.length) andTextString:self.string];
 
-    // remove existing link attributes
+    // remove existing data link attributes
     [self removeAttribute:NSLinkAttributeName range:extendedRange];
 
     __weak LSTextStorage *weakSelf = self;
     
-    // Find all links in range
+    // Find all data types in range
     [linkDetector enumerateMatchesInString:self.string options:0 range:extendedRange usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
         if ([result resultType] == NSTextCheckingTypeLink) {
             [self removeAttribute:NSUnderlineStyleAttributeName range:result.range];

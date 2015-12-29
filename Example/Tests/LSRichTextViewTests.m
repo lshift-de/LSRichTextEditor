@@ -43,7 +43,7 @@
     [super setUp];
 
     self.mockTextStorage = [OCMockObject niceMockForClass:[LSTextStorage class]];
-    OCMStub([self.mockTextStorage processLinkDetection]);
+    OCMStub([self.mockTextStorage processDataDetection]);
     OCMStub([self.mockTextStorage setAttributedText:[OCMArg any]]);
 
     // we need to keep a strong reference to text view otherwise it's released by ARC
@@ -67,7 +67,7 @@
 
     [self.richTextPartialMock setText:nil];
     
-    OCMVerify([self.mockTextStorage processLinkDetection]);
+    OCMVerify([self.mockTextStorage processDataDetection]);
     OCMVerify([self.richTextPartialMock setSelectedRange:NSMakeRange(0, 0)]);
 }
 
@@ -78,7 +78,7 @@
 
     [_richTextView setText:nil];
     
-    OCMVerify([self.mockTextStorage processLinkDetection]);
+    OCMVerify([self.mockTextStorage processDataDetection]);
     OCMVerify([[self.richTextPartialMock reject ] setSelectedRange:NSMakeRange(12, 0)]);
 }
 
@@ -89,7 +89,7 @@
 
     [_richTextView setText:nil];
     
-    OCMVerify([self.mockTextStorage processLinkDetection]);
+    OCMVerify([self.mockTextStorage processDataDetection]);
     OCMVerify([self.richTextPartialMock setSelectedRange:NSMakeRange(0, 0)]);
 }
 
@@ -110,7 +110,7 @@
 
     [_richTextView setText:@"Reply..."];
 
-    OCMVerify([self.mockTextStorage processLinkDetection]);
+    OCMVerify([self.mockTextStorage processDataDetection]);
 
     // in this case selected range shouldn't be changed!
     OCMVerify([[self.richTextPartialMock reject] setSelectedRange:NSMakeRange(7, 0)]);
@@ -125,7 +125,7 @@
     [_richTextView setText:@"This is a valid text..."];
 
     // in this test case link detection and selected range shouldn't be called!
-    OCMVerify([[self.mockTextStorage reject] processLinkDetection]);
+    OCMVerify([[self.mockTextStorage reject] processDataDetection]);
     OCMVerify([[self.richTextPartialMock reject] setSelectedRange:NSMakeRange(7, 0)]);
 }
 
