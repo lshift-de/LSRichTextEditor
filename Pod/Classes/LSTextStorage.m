@@ -325,9 +325,21 @@
 - (UIFont *)fontAtIndex:(NSInteger)index withinText:(NSAttributedString *)attributedText
 {
     // If no text exists get font from typing attributes
-    NSDictionary *dictionary = [attributedText attributesAtIndex:index effectiveRange:nil];
+    NSDictionary *dictionary = ([self.textView hasText])
+    ? [attributedText attributesAtIndex:index effectiveRange:nil]
+    : self.textView.typingAttributes;
 
-    return [dictionary objectForKey:NSFontAttributeName];
+    if ([dictionary count] == 0) {
+      dictionary = self.textView.richTextConfiguration.initialTextAttributes;
+    }
+
+    UIFont *font = [dictionary objectForKey:NSFontAttributeName];
+    if (!font) {
+      // failover solution if no font is defined before
+      font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
+    }
+
+    return font;
 }
 
 - (NSDictionary *)fontAttributesAtIndex:(NSInteger)index

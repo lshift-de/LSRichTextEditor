@@ -30,7 +30,7 @@
 
     LSRichTextView *textView = [[LSRichTextView alloc] initWithFrame:frame andConfiguration:configuration];
     [self adjustTextFieldStyle:textView];
-    [textView setText:@"This text view is created programmatically"];
+    [textView setText:@"This text view [b]is created[/b] programmatically"];
 
     [self.view addSubview:textView];
 }
