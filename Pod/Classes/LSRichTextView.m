@@ -1,3 +1,4 @@
+
 /*!
  * This file is part of LSTextEditor.
  *
@@ -110,13 +111,9 @@
     [self setNeedsDisplay];
     self.scrollEnabled = _scrollEnabledSave;
     self.text = existingText;
-}
-
-- (void)didMoveToWindow
-{
-    [super didMoveToWindow];
     [self.richTextConfiguration setInitialAttributesFromTextView:self];
     self.richTextConfiguration.defaultTextColor = self.textColor;
+
 }
 
 - (LSTextStorage *)createTextStorage
@@ -330,32 +327,21 @@
 
 - (void)updateToolbarStatus
 {
-    if (![self hasText])
-    {
-        [self.toolBar updateStateWithAttributes:self.typingAttributes];
-    }
-    else
-    {
-        NSUInteger location = self.selectedRange.location;
-        [self.toolBar updateStateWithAttributes:[self attributesDictAtIndex:location]];
-    }
+    NSUInteger location = self.selectedRange.location;
+    [self.toolBar updateStateWithAttributes:[self attributesDictAtIndex:location]];
 }
 
 - (NSDictionary *)attributesDictAtIndex:(NSInteger)index
 {
     // If index at end of string, get attributes starting from previous character
-    if (index == self.customTextStorage.string.length && [self hasText]) {
-        --index;
-    }
-    
-    if (index >= self.customTextStorage.length) {
+    if ([self hasText] && index >= self.customTextStorage.length) {
         index = self.customTextStorage.length - 1;
     }
-    
+
     // If no text exists get font from typing attributes
-    return  ([self hasText])
+    return  ([self hasText] && self.customTextStorage.string.length > 0)
     ? [self.customTextStorage attributesAtIndex:index effectiveRange:nil]
-    : self.typingAttributes;
+    : self.richTextConfiguration.initialTextAttributes;
 }
 
 - (CGRect)currentScreenBoundsDependOnOrientation
