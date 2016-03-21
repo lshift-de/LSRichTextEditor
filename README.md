@@ -1,14 +1,11 @@
-# LSRichTextEditor
+# LSTextEditor
 
-[![CI Status](https://travis-ci.org/lshift-de/LSRichTextEditor.svg?branch=master)](https://travis-ci.org/lshift-de/LSRichTextEditor)
-[![codecov.io](https://codecov.io/github/lshift-de/LSRichTextEditor/coverage.svg?branch=master)](https://codecov.io/github/lshift-de/LSRichTextEditor)
-[![Version](https://img.shields.io/cocoapods/v/LSRichTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSRichTextEditor)
-[![License](https://img.shields.io/cocoapods/l/LSRichTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSRichTextEditor)
-[![Platform](https://img.shields.io/cocoapods/p/LSRichTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSRichTextEditor)
+[![CI Status](http://img.shields.io/travis/Peter Lieder/LSTextEditor.svg?style=flat)](https://travis-ci.org/Peter Lieder/LSTextEditor)
+[![Version](https://img.shields.io/cocoapods/v/LSTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSTextEditor)
+[![License](https://img.shields.io/cocoapods/l/LSTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSTextEditor)
+[![Platform](https://img.shields.io/cocoapods/p/LSTextEditor.svg?style=flat)](http://cocoapods.org/pods/LSTextEditor)
 
-A rich text editing feature for text input fields get more and more important in mobile applications nowadays. But why just another rich text editor? LSRichTextEditor combines the idea of getting an easy to implement component with a set of various text editing features that are flexible to set up. The rich text component extends the UITextView by adding formatting attributes to selected ranges or typed letters. A toolbar is providing buttons for the according formatting features. The additional parser implementation provides transformation feature for markup languages, currently is only BBCode supported. Additionally, a markup encoded string can be exported from the formatted text.
-
-![](https://raw.githubusercontent.com/lshift-de/LSRichTextEditor/master/LSRichTextEditor.png "LSRichTextEditor screenshot")
+A rich text editing feature for text input fields is getting more and more important in mobile applications nowadays. LSRichTextEditor combines an easy to implement component with various easy to set up features. The rich text component extends the UITextView by adding formatting attributes to selected ranges or typed letters. A toolbar is providing buttons for formatting features. The additional parser implementation provides transformation feature for markup languages, currently only BBCode is supported. A markup encoded string can also be exported from the formatted text.
 
 ## Requirements
 
@@ -22,10 +19,8 @@ Supported versions: iOS 8, 9
 #### Podfile
 
 ```ruby
-source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
-
-pod "LSRichTextEditor"
+pod "LSTextEditor"
 ```
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
@@ -52,21 +47,21 @@ The LSRichTextConfiguration objects provides a global setup instance used all ov
 ```objective-c
 [[LSRichTextConfiguration alloc] initWithConfiguration:LSRichTextFeaturesAll]]
 ```
-The features of ```LSRichTextFeatures``` with bit operators.
+The features of ```objective-c LSRichTextFeatures``` with bit operators.
 
 ### Enable Data Detection
 
-If the rich text view component is initialized programmatically the data detection feature needs to be enabled by code as well. This can be archived by setting the according ```UIDataDetectorTypes``` type.
+If the rich text view component is initialized programmatically the data detection feature needs to be enabled programmatically too. This can be achieved by setting the according ```objective-c UIDataDetectorTypes``` type.
 
 ```objective-c
 [self.richTextView.richTextConfiguration setTextCheckingType:UIDataDetectorTypeLink];
 ```
 
-## Limitations and Future
+## Limitations and Future Plans
 
-Supported formatting features: Bold, Italic, Underline and Strike through.
+Currently supported formatting features: Bold, Italic, Underline and Strike through.
 
-Supported markup language: BBCode
+Currently supported markup language: BBCode
 
 Planned Changes:
 
@@ -81,4 +76,4 @@ Peter Lieder, <peter@lshift.de>
 
 ## License
 
-LSTextEditor is available under the Apache License Version 2.0. See the [LICENSE](LICENSE) file for more information.
+LSTextEditor is available under the Apache License Version 2.0. See the LICENSE file for more information.
